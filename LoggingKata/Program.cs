@@ -12,13 +12,10 @@ namespace LoggingKata
 
         static void Main(string[] args)
         {
-            // TODO:  Find the two Taco Bells that are the furthest from one another.
-            // HINT:  You'll need two nested forloops ---------------------------
 
             logger.LogInfo("Log initialized");
 
-            // use File.ReadAllLines(path) to grab all the lines from your csv file
-            // Log and error if you get 0 lines and a warning if you get 1 line
+            // reads all lines from csv file and give error if lines are 0 or 1
             var lines = File.ReadAllLines(csvPath);
 
             if (lines.Length == 0)
@@ -30,53 +27,41 @@ namespace LoggingKata
                 logger.LogWarning("Warning: There is only 1 line of input.");            }
             logger.LogInfo($"Lines: {lines[0]}");
 
-            // Create a new instance of your TacoParser class
+            //instance of your TacoParser class
             var parser = new TacoParser();
 
-            // Grab an IEnumerable of locations using the Select command: var locations = lines.Select(parser.Parse);
+            //IEnumerable of locations using the Select command: var locations = lines.Select(parser.Parse); parse to an array to be sifted through
             var locations = lines.Select(parser.Parse).ToArray();
 
-            // DON'T FORGET TO LOG YOUR STEPS
-
-            // Now that your Parse method is completed, START BELOW ----------
-
-            // TODO: Create two `ITrackable` variables with initial values of `null`. These will be used to store your two taco bells that are the farthest from each other.
-            ITrackable tacoBellFar1 = null;
+            ITrackable tacoBellFar1 = null; //trackables for 2 locations in the following for loops and then overwrites them
             ITrackable tacoBellFar2 = null;
-            // Create a `double` variable to store the distance
-            double distance = 0.0;
-            // Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
+            double distance = 0.0; // declaring a distance variable to later overwrite result from getDistanceTo
+            
 
-            //HINT NESTED LOOPS SECTION---------------------
-            for (int i = 0; i < locations.Length; i++)
+            for (int i = 0; i < locations.Length; i++) //starts here for measuring distance
             {
-                // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
-                // Create a new corA Coordinate with your locA's lat and long
-                var locA = locations[i];
-                var corA = new GeoCoordinate(locA.Location.Latitude, locA.Location.Longitude);
-                // Now, do another loop on the locations with the scope of your first loop, so you can grab the "destination" location (perhaps: `locB`)
-                // Create a new Coordinate with your locB's lat and long
-                for (int j = 0; j < locations.Length; j++)
+                
+                var locA = locations[i]; //instance of first location at index
+                var corA = new GeoCoordinate(locA.Location.Latitude, locA.Location.Longitude); //location details for first location
+                
+                for (int j = 0; j < locations.Length; j++) //compares to first location to determine distance
                 {
-                    var locB = locations[j];
-                    var corB = new GeoCoordinate(locB.Location.Latitude, locB.Location.Longitude);
+                    var locB = locations[j]; //instance of second location at index
+                    var corB = new GeoCoordinate(locB.Location.Latitude, locB.Location.Longitude); //location details for second location
                     var newDistance = corA.GetDistanceTo(corB);
-
-
-                // Now, compare the two using `.GetDistanceTo()`, which returns a double
-                // If the distance is greater than the currently saved distance, update the distance and the two `ITrackable` variables you set above
+                                    
                     
-                    if (newDistance > distance)
+                    if (newDistance > distance) //compares new distance to previously declared 'distance' variable
                     {
-                        distance = newDistance;
-                        tacoBellFar1 = locA;
+                        distance = newDistance; //sets 'distance' to now equal new distance
+                        tacoBellFar1 = locA; //updates previously declared Itrackables to equal the two locations
                         tacoBellFar2 = locB;
                     }
                 }
              
             }
             Console.WriteLine($"{tacoBellFar1.Name} and {tacoBellFar2.Name} are {Math.Round((distance/1609.344), 2)} miles apart.");
-                // Once you've looped through everything, you've found the two Taco Bells farthest away from each other.
+                //writing to console the two locations furthest apart and distance (converted to miles...was told initial distance was meters but couldn't find where the information was given within the geolocator
 
             
         }
