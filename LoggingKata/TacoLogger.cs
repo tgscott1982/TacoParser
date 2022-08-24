@@ -4,6 +4,10 @@ namespace LoggingKata
 {
     public class TacoLogger : ILog
     {
+        //these are placed within the app to pinpoint where it failed
+        //(ie)-when initializing app, in Taco Parser Class, if csv file has less than 3 items in array
+        //of current line log error will be triggered to print to console while in program class, error
+        //or warning will be triggered with 0,1 or 2 items
         public void LogFatal(string log, Exception exception = null)
         {
             Console.WriteLine($"Fatal: {log}, Exception {exception}");

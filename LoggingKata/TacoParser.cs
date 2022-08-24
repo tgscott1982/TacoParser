@@ -1,7 +1,7 @@
 ﻿namespace LoggingKata
 {
     /// <summary>
-    /// Parses a POI file to locate all the Taco Bells
+    /// Parses a POI/CSV file to locate all the Taco Bells
     /// </summary>
     public class TacoParser
     {
@@ -11,7 +11,7 @@
         {
             //logger.LogInfo("Begin parsing");  //commented out to prevent from writing to console for every location
 
-            // Take your line and use line.Split(',') to split it up into an array of strings, separated by the char ','
+            //Use line.Split(',') to split it up into an array of strings, separated by the char ','
             var cells = line.Split(',');
 
             
@@ -26,7 +26,7 @@
             var longitude = double.Parse(cells[1]);
             var name = cells[2];
 
-            // creates instance of taco bell and stores name/location info in it to be returned via instance
+            // creates instance of taco bell and stores name/location info in it to be returned
             var tacoBell = new TacoBell() { Name = name, Location = new Point() { Longitude = longitude, Latitude = latitude } };
             
 
